@@ -47,7 +47,7 @@ const UserPage = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">User Dashboard</h1>
+      <h1 className="text-2xl font-bold mb-4">Panel de reserva</h1>
       <SearchForm onSearch={handleSearch} />
       {error && <p className="text-red-500 mt-2">{error}</p>}
       {selectedRoom ? (
@@ -57,19 +57,19 @@ const UserPage = () => {
         />
       ) : (
         <div className="mt-4">
-          <h2 className="text-xl font-bold mb-4">Available Rooms</h2>
+          <h2 className="text-xl font-bold mb-4">Habitaciones disponibles</h2>
           {availableRooms.length > 0 ? (
             <ul className="space-y-2">
               {availableRooms.map((room) => (
                 <li key={room.id} className="border p-2">
                   <p className="font-bold">{room.type}</p>
-                  <p>Base Cost: ${room.baseCost}</p>
-                  <p>Taxes: ${room.taxes}</p>
+                  <p>Costo: ${room.baseCost}</p>
+                  <p>Impuesto: ${room.taxes}</p>
                   <button
                     onClick={() => setSelectedRoom(room.id)}
                     className="bg-blue-500 text-white p-2 mt-2"
                   >
-                    Reserve
+                    Reservar
                   </button>
                 </li>
               ))}

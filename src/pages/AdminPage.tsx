@@ -8,24 +8,34 @@ const AdminPage = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout(); 
-    navigate("/login", { replace: true }); 
+    const confirmLogout = window.confirm("¿Estás seguro de que deseas cerrar sesión?");
+    if (confirmLogout) {
+      logout();
+      navigate("/", { replace: true });
+    }
   };
 
   return (
-    <div className="p-4 bg-gray-300 text-center text-[#070b0d] rounded-xl relative" style={{ textShadow: "3px 3px 3px rgb(0, 0, 0, 0.2)" }}>
+    <div className="min-h-screen flex flex-col items-center bg-gray-200 p-4">
       <button 
         onClick={handleLogout} 
-        className="absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+        className="fixed top-4 right-4 md:absolute md:top-6 md:right-6 z-10 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
       >
         Cerrar sesión
       </button>
-      <h1 className="text-2xl font-bold mb-4">Panel de administración</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <HotelForm />
-        <RoomForm />
+
+      <div className="w-full max-w-sm sm:max-w-md md:max-w-screen-xl bg-gray-300 text-center text-[#070b0d] rounded-xl shadow-lg p-6 md:p-8">
+        <h1 className="text-2xl md:text-3xl font-bold mb-6">Panel de administración</h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <HotelForm />
+          <RoomForm />
+        </div>
+
+        <div className="mt-6">
+          <ReservationList />
+        </div>
       </div>
-      <ReservationList />
     </div>
   );
 };
