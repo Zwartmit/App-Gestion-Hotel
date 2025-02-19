@@ -19,7 +19,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Search Hotels</h2>
+      <h2 className="text-xl font-bold mb-4">Buscar habitaciones</h2>
       <input
         type="date"
         value={checkIn}
@@ -34,13 +34,14 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
       />
       <input
         type="text"
-        placeholder="City"
+        placeholder="Ciudad"
         value={city}
         onChange={(e) => setCity(e.target.value)}
         className="border p-2 mb-2"
       />
+      <br />
       <button onClick={handleSearch} className="bg-blue-500 text-white p-2">
-        Search
+        Buscar
       </button>
     </div>
   );
