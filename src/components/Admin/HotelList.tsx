@@ -64,51 +64,63 @@ const HotelList = () => {
   };
 
   return (
-    <div className="p-4 bg-amber-50 text-black rounded-2xl">
-      <h2 className="text-2xl font-bold mb-4">Gestión de hoteles</h2>
+    <div className="p-6 bg-white text-black rounded-2xl shadow-lg">
+      <h2 className="text-3xl font-bold mb-6 text-center text-blue-600">Gestión de hoteles</h2>
 
-      {error && <p className="text-red-500 mb-2">{error}</p>}
+      {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
 
-      <div className="mb-4">
+      <div className="mb-6">
         <input
           type="text"
           placeholder="Nombre del hotel"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="border p-2 mb-2 w-full rounded-2xl"
+          className="border p-3 mb-3 w-full rounded-lg"
         />
         <input
           type="text"
           placeholder="Ciudad"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          className="border p-2 mb-2 w-full rounded-2xl"
+          className="border p-3 mb-3 w-full rounded-lg"
         />
-        <button onClick={handleSave} className="bg-green-500 text-white mt-2 mb-5">
+        <button onClick={handleSave} className="bg-green-500 text-white py-3 rounded-lg">
           {editingHotel ? "Actualizar" : "Agregar"}
         </button>
-        <div className="w-full h-[2px] bg-gradient-to-r from-[#cccccc] via-[#BE8922] to-[#cccccc] mx-auto"></div>
       </div>
 
-      <ul className="space-y-2">
-      <h2 className="text-2xl font-bold mb-4">Hoteles registrados</h2>
-        {hotels.map((hotel) => (
-          <li key={hotel.id} className="border p-2 flex justify-between items-center rounded-2xl">
-            <div>
-              <p className="font-bold">{hotel.name}</p>
-              <p>{hotel.city}</p>
-            </div>
-            <div>
-              <button onClick={() => handleEdit(hotel)} className="bg-blue-500 text-white p-2 mr-2">
-                Editar
-              </button>
-              <button onClick={() => handleDelete(hotel.id)} className="bg-red-500 text-white p-2">
-                Eliminar
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <div className="w-full h-[2px] bg-gradient-to-r from-[#cccccc] via-[#BE8922] to-[#cccccc] mx-auto mb-6"></div>
+
+      <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">Hoteles registrados</h2>
+
+      {hotels.length === 0 ? (
+        <p className="text-center text-gray-600">Aún no hay hoteles registrados.</p>
+      ) : (
+        <ul className="space-y-4">
+          {hotels.map((hotel) => (
+            <li key={hotel.id} className="border p-4 flex justify-between items-center rounded-lg shadow-sm bg-gray-100">
+              <div>
+                <p className="font-bold text-lg">{hotel.name}</p>
+                <p className="text-gray-600">{hotel.city}</p>
+              </div>
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => handleEdit(hotel)}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => handleDelete(hotel.id)}
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

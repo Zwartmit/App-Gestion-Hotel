@@ -33,7 +33,7 @@ const AdminPage = () => {
       </button>
 
       <div className="w-full max-w-4xl bg-white text-gray-900 rounded-xl shadow-lg p-6 md:p-8" style={{ backgroundImage: `url(${back2})`, backgroundSize: "contain", backgroundPosition: "center" }}>
-        <h1 className="text-2xl font-bold text-center text-white">Panel de Administración</h1>
+        <h1 className="text-2xl font-bold text-center text-white" style={{ textShadow: "3px 3px 6px rgb(0, 0, 0)" }}>Panel de Administración</h1>
         <img src={icon} alt="Logo" className="w-auto h-35 mb-6 mx-auto" style={{ filter: "drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.2))" }} />
 
         <div className="flex justify-center space-x-4 mb-6">

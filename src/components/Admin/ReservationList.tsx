@@ -30,7 +30,7 @@ const ReservationList = () => {
   }, []);
 
   return (
-    <div className="p-4 w-full bg-amber-50 text-black rounded-2xl">
+    <div className="p-4 w-full bg-white text-black rounded-2xl">
       <h2 className="text-2xl font-bold mb-4 text-center">Lista de reservas</h2>
 
       {reservations.length === 0 ? (
