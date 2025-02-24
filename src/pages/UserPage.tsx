@@ -2,13 +2,15 @@ import { useState } from "react";
 import SearchForm from "../components/User/SearchForm";
 import ReservationForm from "../components/User/ReservationForm";
 import { getHotels, getRooms } from "../utils/storage";
-import { LogOut } from 'lucide-react';
+import { LogOut } from "lucide-react";
 import { logout } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 
 const UserPage = () => {
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
-  
+  const [selectedCheckIn, setSelectedCheckIn] = useState<string | null>(null);
+  const [selectedCheckOut, setSelectedCheckOut] = useState<string | null>(null);
+
   interface Room {
     id: string;
     type: string;
@@ -20,6 +22,7 @@ const UserPage = () => {
 
   const [availableRooms, setAvailableRooms] = useState<Room[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [noRoomsMessage, setNoRoomsMessage] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -30,7 +33,7 @@ const UserPage = () => {
     }
   };
 
-  const handleSearch = (filters: { checkIn: string; checkOut: string; city: string }) => {
+  const handleSearch = (filters: { checkIn: string; checkOut: string; city: string; guests: number }) => {
     const { checkIn, checkOut, city } = filters;
 
     if (!checkIn || !checkOut || !city) {
@@ -44,6 +47,7 @@ const UserPage = () => {
     }
 
     setError(null);
+    setNoRoomsMessage(null);
 
     const hotels = getHotels();
     const rooms = getRooms();
@@ -52,17 +56,34 @@ const UserPage = () => {
       (hotel) => hotel.city.toLowerCase() === city.toLowerCase() && hotel.enabled
     );
 
+    if (filteredHotels.length === 0) {
+      setAvailableRooms([]);
+      setNoRoomsMessage("No hay habitaciones disponibles en esta ciudad.");
+      return;
+    }
+
     const availableRooms = rooms.filter((room) => {
       const isRoomInFilteredHotels = filteredHotels.some((hotel) => hotel.id === room.hotelId);
       return isRoomInFilteredHotels && room.enabled;
     });
 
+    if (availableRooms.length === 0) {
+      setNoRoomsMessage("No hay habitaciones disponibles en esta ciudad.");
+    }
+
     setAvailableRooms(availableRooms);
+    setSelectedCheckIn(checkIn);
+    setSelectedCheckOut(checkOut);
+  };
+
+  const handleSelectRoom = (roomId: string) => {
+    setSelectedRoom(roomId);
   };
 
   const handleBackToSearch = () => {
     setSelectedRoom(null);
-    setAvailableRooms([]); // Limpia las habitaciones buscadas
+    setAvailableRooms([]);
+    setNoRoomsMessage(null);
   };
 
   return (
@@ -78,6 +99,7 @@ const UserPage = () => {
           <>
             <SearchForm onSearch={handleSearch} />
             {error && <p className="text-red-500 mt-2">{error}</p>}
+            {noRoomsMessage && <p className="text-red-500 mt-2">{noRoomsMessage}</p>}
 
             {availableRooms.length > 0 && (
               <div className="mt-4">
@@ -86,10 +108,11 @@ const UserPage = () => {
                   {availableRooms.map((room) => (
                     <li key={room.id} className="border p-2">
                       <p className="font-bold">{room.type}</p>
+                      <p>Hotel: {room.hotelId}</p>
                       <p>Costo: ${room.baseCost}</p>
                       <p>Impuesto: ${room.taxes}</p>
                       <button
-                        onClick={() => setSelectedRoom(room.id)}
+                        onClick={() => handleSelectRoom(room.id)}
                         className="bg-blue-500 text-white p-2 mt-2"
                       >
                         Reservar
@@ -101,7 +124,12 @@ const UserPage = () => {
             )}
           </>
         ) : (
-          <ReservationForm roomId={selectedRoom} onSuccess={handleBackToSearch} />
+          <ReservationForm 
+            roomId={selectedRoom} 
+            checkIn={selectedCheckIn!} 
+            checkOut={selectedCheckOut!} 
+            onSuccess={handleBackToSearch} 
+          />
         )}
       </div>
     </div>

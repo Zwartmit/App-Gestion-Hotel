@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import HotelForm from "../components/Admin/HotelForm";
-import RoomForm from "../components/Admin/RoomForm";
 import ReservationList from "../components/Admin/ReservationList";
 import { LogOut } from 'lucide-react';
 import { logout } from "../utils/auth"; 
+import HotelList from "../components/Admin/HotelList";
+import RoomList from "../components/Admin/RoomList";
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -24,11 +24,8 @@ const AdminPage = () => {
 
       <div className="w-full max-w-sm sm:max-w-md md:max-w-screen-xl bg-gray-300 text-center text-[#070b0d] rounded-xl shadow-lg p-6 md:p-8">
         <h1 className="text-2xl md:text-3xl font-bold mb-6">Panel de administración</h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <HotelForm />
-          <RoomForm />
-        </div>
+        <HotelList />
+        <RoomList />
 
         <div className="mt-6">
           <ReservationList />

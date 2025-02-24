@@ -61,8 +61,10 @@ interface Hotel {
   
   // Obtener reservas
   export const getReservations = (): Reservation[] => {
-    return JSON.parse(localStorage.getItem("reservations") || "[]");
+    const storedData = localStorage.getItem("reservations");
+    return storedData ? JSON.parse(storedData) : [];
   };
+  
   
   // Guardar una nueva reserva
   export const saveReservation = (reservation: Reservation) => {
@@ -94,3 +96,35 @@ interface Hotel {
     );
     localStorage.setItem("rooms", JSON.stringify(updatedRooms));
   };
+  
+  // Eliminar un hotel
+  export const deleteHotel = (id: string) => {
+    const hotels = getHotels();
+    const rooms = getRooms();
+  
+    const hasAssociatedRooms = rooms.some((room) => room.hotelId === id);
+  
+    if (hasAssociatedRooms) {
+      alert("No se puede eliminar el hotel porque tiene habitaciones asociadas.");
+      return;
+    }
+  
+    const confirmDelete = window.confirm("¿Estás seguro de que quieres eliminar este hotel?");
+    if (!confirmDelete) return;
+  
+    const updatedHotels = hotels.filter((hotel) => hotel.id !== id);
+    localStorage.setItem("hotels", JSON.stringify(updatedHotels));
+    alert("Hotel eliminado exitosamente.");
+  };
+  
+  // Eliminar una habitación
+  export const deleteRoom = (id: string) => {
+    const confirmDelete = window.confirm("¿Estás seguro de que quieres eliminar esta habitación?");
+    if (!confirmDelete) return;
+  
+    const rooms = getRooms();
+    const updatedRooms = rooms.filter((room) => room.id !== id);
+    localStorage.setItem("rooms", JSON.stringify(updatedRooms));
+    alert("Habitación eliminada exitosamente.");
+  };
+  

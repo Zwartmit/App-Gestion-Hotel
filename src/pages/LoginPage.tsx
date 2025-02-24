@@ -24,7 +24,7 @@ const LoginPage = () => {
         <div className="flex justify-start">
         <button
           onClick={() => navigate("/", { replace: true })}
-          style={{ background: "transparent", boxShadow: "0px 0px 6px rgb(0, 0, 0)" }}
+          style={{ background: "transparent" }}
         >
           <House size={25} className="animate-bounce" />
         </button>
