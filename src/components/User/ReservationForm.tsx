@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { saveReservation } from "../../utils/storage";
+import emailjs from "emailjs-com";
 
 const ReservationForm = ({ roomId, checkIn, checkOut, onSuccess }: { roomId: string; checkIn: string; checkOut: string; onSuccess: () => void }) => {
   const [firstName, setFirstName] = useState("");
@@ -17,6 +18,33 @@ const ReservationForm = ({ roomId, checkIn, checkOut, onSuccess }: { roomId: str
   const [error, setError] = useState<string | null>(null);
 
   const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const sendConfirmationEmail = (guestEmail: string, firstName: string, lastName: string, checkIn: string, checkOut: string, roomId: string) => {
+    const templateParams = {
+      firstName,
+      lastName,
+      checkIn,
+      checkOut,
+      roomId,
+      to_email: guestEmail,
+    };
+
+    emailjs
+      .send(
+        "service_bwehs2y",
+        "template_k210bj9", 
+        templateParams,
+        "Brandon"
+      )
+      .then(
+        (response) => {
+          console.log("Correo enviado con éxito:", response);
+        },
+        (error) => {
+          console.error("Error enviando el correo:", error);
+        }
+      );
+  };
 
   const handleSubmit = () => {
     if (!firstName || !lastName || !email || !phone || !dob || !documentType || !documentNumber || !emergencyName || !emergencyPhone) {
@@ -54,6 +82,8 @@ const ReservationForm = ({ roomId, checkIn, checkOut, onSuccess }: { roomId: str
     };
 
     saveReservation(reservation);
+
+    sendConfirmationEmail(email, firstName, lastName, checkIn, checkOut, roomId);
 
     window.alert("Reserva realizada con éxito ✅");
 
