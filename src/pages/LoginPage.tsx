@@ -20,7 +20,7 @@ const LoginPage = () => {
 
   return (
     <div className="absolute inset-0 flex justify-center align-center items-center min-h-screen">
-      <div className="p-6 text-center text-white shadow-md w-full max-w-sm mx-auto" style={{ backgroundImage: `url(${back})`, backgroundSize: "contain", backgroundPosition: "center", backgroundColor: "rgba(0, 0, 0, 0.1)", backgroundBlendMode: "darken", textShadow: "3px 3px 6px rgb(0, 0, 0, 0.5)", borderRadius: "30px", boxShadow: "0px 0px 8px rgb(1, 4, 14)" }}>
+      <div className="p-6 text-center text-white shadow-md w-full max-w-sm mx-auto" style={{ backgroundImage: `url(${back})`, backgroundSize: "contain", backgroundPosition: "center",  textShadow: "3px 3px 6px rgb(0, 0, 0, 0.5)", borderRadius: "30px", boxShadow: "0px 0px 8px rgb(1, 4, 14)" }}>
         <div className="flex justify-start">
         <button
           onClick={() => navigate("/", { replace: true })}

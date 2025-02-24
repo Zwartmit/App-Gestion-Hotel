@@ -38,34 +38,30 @@ const ReservationList = () => {
         <div className="overflow-x-auto">
           <table className="w-full border-collapse shadow-lg">
             <thead>
-              <tr className="bg-gray-200 text-gray-700 text-sm md:text-base">
-                <th className="border p-3">Huésped</th>
-                <th className="border p-3">Correo</th>
-                <th className="border p-3">Teléfono</th>
-                <th className="border p-3">Fecha de Nacimiento</th>
-                <th className="border p-3">Género</th>
-                <th className="border p-3">Documento</th>
-                <th className="border p-3">Check-in</th>
-                <th className="border p-3">Check-out</th>
-                <th className="border p-3">Emergencia</th>
+              <tr className="bg-gray-200 text-gray-800 text-sm md:text-base">
+                <th className="border p-1">Huésped</th>
+                <th className="border p-1">Correo</th>
+                <th className="border p-1">Teléfono</th>
+                <th className="border p-1">Fecha de Nacimiento</th>
+                <th className="border p-1">Género</th>
+                <th className="border p-1">Documento</th>
+                <th className="border p-1">Check-in</th>
+                <th className="border p-1">Check-out</th>
+                <th className="border p-1">Emergencia</th>
               </tr>
             </thead>
             <tbody>
               {reservations.map((reservation) => (
-                <tr key={reservation.id} className="border text-gray-800 text-sm md:text-base">
-                  <td className="border p-3">
-                    {reservation.guest.firstName} {reservation.guest.lastName}
-                  </td>
-                  <td className="border p-3">{reservation.guest.email}</td>
-                  <td className="border p-3">{reservation.guest.phone}</td>
-                  <td className="border p-3">{reservation.guest.dob}</td>
-                  <td className="border p-3 capitalize">{reservation.guest.gender}</td>
-                  <td className="border p-3">
-                    {reservation.guest.documentType} - {reservation.guest.documentNumber}
-                  </td>
-                  <td className="border p-3">{reservation.checkIn}</td>
-                  <td className="border p-3">{reservation.checkOut}</td>
-                  <td className="border p-3">
+                <tr key={reservation.id} className="border text-gray-900 text-sm md:text-base">
+                  <td className="border p-1">{reservation.guest.firstName} {reservation.guest.lastName}</td>
+                  <td className="border p-1">{reservation.guest.email}</td>
+                  <td className="border p-1">{reservation.guest.phone}</td>
+                  <td className="border p-1 w-28">{reservation.guest.dob}</td>
+                  <td className="border p-1 capitalize">{reservation.guest.gender}</td>
+                  <td className="border p-1">{reservation.guest.documentType} - {reservation.guest.documentNumber}</td>
+                  <td className="border p-1 w-28">{reservation.checkIn}</td>
+                  <td className="border p-1 w-28">{reservation.checkOut}</td>
+                  <td className="border p-1">
                     {reservation.emergencyContact
                       ? `${reservation.emergencyContact.fullName} - ${reservation.emergencyContact.phone}`
                       : "No registrado"}
@@ -84,28 +80,28 @@ const ReservationList = () => {
               {reservation.guest.firstName} {reservation.guest.lastName}
             </p>
             <p className="text-gray-700">
-              <span className="font-semibold">Correo:</span> {reservation.guest.email}
+              <span className="font-semibold"><b>Correo:</b></span> {reservation.guest.email}
             </p>
             <p className="text-gray-700">
-              <span className="font-semibold">Teléfono:</span> {reservation.guest.phone}
+              <span className="font-semibold"><b>Teléfono:</b></span> {reservation.guest.phone}
             </p>
             <p className="text-gray-700">
-              <span className="font-semibold">Fecha de nacimiento:</span> {reservation.guest.dob}
+              <span className="font-semibold"><b>Fecha de Nacimiento:</b></span> {reservation.guest.dob}
             </p>
             <p className="text-gray-700">
-              <span className="font-semibold">Género:</span> {reservation.guest.gender}
+              <span className="font-semibold"><b>Género:</b></span> {reservation.guest.gender}
             </p>
             <p className="text-gray-700">
-              <span className="font-semibold">Documento:</span> {reservation.guest.documentType} - {reservation.guest.documentNumber}
+              <span className="font-semibold"><b>Documento:</b></span> {reservation.guest.documentType} - {reservation.guest.documentNumber}
             </p>
             <p className="text-gray-700">
-              <span className="font-semibold">Check-in:</span> {reservation.checkIn}
+              <span className="font-semibold"><b>Check-in:</b></span> {reservation.checkIn}
             </p>
             <p className="text-gray-700">
-              <span className="font-semibold">Check-out:</span> {reservation.checkOut}
+              <span className="font-semibold"><b>Check-out:</b></span> {reservation.checkOut}
             </p>
             <p className="text-gray-700">
-              <span className="font-semibold">Emergencia:</span>{" "}
+              <span className="font-semibold"><b>Contacto de mergencia:</b></span>{" "}
               {reservation.emergencyContact
                 ? `${reservation.emergencyContact.fullName} - ${reservation.emergencyContact.phone}`
                 : "No registrado"}

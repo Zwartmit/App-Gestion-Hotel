@@ -9,30 +9,34 @@ const RoomList = () => {
   const [baseCost, setBaseCost] = useState(0);
   const [taxes, setTaxes] = useState(0);
   const [hotels, setHotels] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-  setHotels(getHotels());
+    setHotels(getHotels());
 
-  const handleHotelUpdate = () => {
+    const handleHotelUpdate = () => {
       setHotels(getHotels());
-  };
+    };
 
-  // Escuchar cambios en los hoteles
-  window.addEventListener("hotelListUpdated", handleHotelUpdate);
+    window.addEventListener("hotelListUpdated", handleHotelUpdate);
 
-  return () => {
+    return () => {
       window.removeEventListener("hotelListUpdated", handleHotelUpdate);
-  };
+    };
   }, []);
 
   useEffect(() => {
-    const rooms = getRooms();
-    setRooms(rooms);
+    setRooms(getRooms());
   }, []);
 
   const handleSave = () => {
+    if (!hotelId || !type || baseCost <= 0 || taxes < 0) {
+      setError("Todos los campos son obligatorios y deben tener valores válidos.");
+      return;
+    }
+
     const rooms = getRooms();
-    
+
     const room = {
       id: editingRoom ? editingRoom.id : Date.now().toString(),
       hotelId,
@@ -41,7 +45,7 @@ const RoomList = () => {
       taxes,
       enabled: true,
     };
-  
+
     if (editingRoom) {
       const updatedRooms = rooms.map((r) => (r.id === editingRoom.id ? room : r));
       localStorage.setItem("rooms", JSON.stringify(updatedRooms));
@@ -49,15 +53,16 @@ const RoomList = () => {
       rooms.push(room);
       localStorage.setItem("rooms", JSON.stringify(rooms));
     }
-  
+
     setRooms(getRooms());
     setEditingRoom(null);
     setHotelId("");
     setType("");
     setBaseCost(0);
     setTaxes(0);
+    setError(null);
   };
-  
+
   const handleEdit = (room: any) => {
     setEditingRoom(room);
     setHotelId(room.hotelId);
@@ -74,11 +79,14 @@ const RoomList = () => {
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">Gestión de habitaciones</h2>
+
+      {error && <p className="text-red-500 mb-2">{error}</p>}
+
       <div className="mb-4">
         <select
           value={hotelId}
           onChange={(e) => setHotelId(e.target.value)}
-          className="border p-2 mb-2"
+          className="border p-2 mb-2 w-full"
         >
           <option value="">Seleccionar Hotel</option>
           {hotels.map((hotel) => (
@@ -87,34 +95,34 @@ const RoomList = () => {
             </option>
           ))}
         </select>
+
         <input
           type="text"
           placeholder="Tipo de habitación"
           value={type}
           onChange={(e) => setType(e.target.value)}
-          className="border p-2 mb-2"
+          className="border p-2 mb-2 w-full"
         />
         <input
           type="number"
           placeholder="Costo base"
           value={baseCost}
           onChange={(e) => setBaseCost(Number(e.target.value))}
-          className="border p-2 mb-2"
+          className="border p-2 mb-2 w-full"
         />
         <input
           type="number"
           placeholder="Impuestos"
           value={taxes}
           onChange={(e) => setTaxes(Number(e.target.value))}
-          className="border p-2 mb-2"
+          className="border p-2 mb-2 w-full"
         />
-        <button
-          onClick={handleSave}
-          className="bg-green-500 text-white p-2"
-        >
+
+        <button onClick={handleSave} className="bg-green-500 text-white p-2">
           {editingRoom ? "Actualizar" : "Agregar"}
         </button>
       </div>
+
       <ul className="space-y-2">
         {rooms.map((room) => (
           <li key={room.id} className="border p-2 flex justify-between items-center">
@@ -125,16 +133,10 @@ const RoomList = () => {
               <p>Impuestos: ${room.taxes}</p>
             </div>
             <div>
-              <button
-                onClick={() => handleEdit(room)}
-                className="bg-blue-500 text-white p-2 mr-2"
-              >
+              <button onClick={() => handleEdit(room)} className="bg-blue-500 text-white p-2 mr-2">
                 Editar
               </button>
-              <button
-                onClick={() => handleDelete(room.id)}
-                className="bg-red-500 text-white p-2"
-              >
+              <button onClick={() => handleDelete(room.id)} className="bg-red-500 text-white p-2">
                 Eliminar
               </button>
             </div>
