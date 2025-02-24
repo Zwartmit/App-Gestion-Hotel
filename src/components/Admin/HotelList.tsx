@@ -2,8 +2,15 @@ import { useState, useEffect } from "react";
 import { getHotels, deleteHotel } from "../../utils/storage";
 
 const HotelList = () => {
-  const [hotels, setHotels] = useState<any[]>([]);
-  const [editingHotel, setEditingHotel] = useState<any>(null);
+  interface Hotel {
+    id: string;
+    name: string;
+    city: string;
+    enabled: boolean;
+  }
+
+  const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [editingHotel, setEditingHotel] = useState<Hotel | null>(null);
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -44,7 +51,7 @@ const HotelList = () => {
     window.dispatchEvent(new Event("hotelListUpdated"));
   };
 
-  const handleEdit = (hotel: any) => {
+  const handleEdit = (hotel: Hotel) => {
     setEditingHotel(hotel);
     setName(hotel.name);
     setCity(hotel.city);
@@ -57,8 +64,8 @@ const HotelList = () => {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Gestión de hoteles</h2>
+    <div className="p-4 bg-amber-50 text-black rounded-2xl">
+      <h2 className="text-2xl font-bold mb-4">Gestión de hoteles</h2>
 
       {error && <p className="text-red-500 mb-2">{error}</p>}
 
@@ -68,23 +75,25 @@ const HotelList = () => {
           placeholder="Nombre del hotel"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="border p-2 mb-2 w-full"
+          className="border p-2 mb-2 w-full rounded-2xl"
         />
         <input
           type="text"
           placeholder="Ciudad"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          className="border p-2 mb-2 w-full"
+          className="border p-2 mb-2 w-full rounded-2xl"
         />
-        <button onClick={handleSave} className="bg-green-500 text-white p-2">
+        <button onClick={handleSave} className="bg-green-500 text-white mt-2 mb-5">
           {editingHotel ? "Actualizar" : "Agregar"}
         </button>
+        <div className="w-full h-[2px] bg-gradient-to-r from-[#cccccc] via-[#BE8922] to-[#cccccc] mx-auto"></div>
       </div>
 
       <ul className="space-y-2">
+      <h2 className="text-2xl font-bold mb-4">Hoteles registrados</h2>
         {hotels.map((hotel) => (
-          <li key={hotel.id} className="border p-2 flex justify-between items-center">
+          <li key={hotel.id} className="border p-2 flex justify-between items-center rounded-2xl">
             <div>
               <p className="font-bold">{hotel.name}</p>
               <p>{hotel.city}</p>

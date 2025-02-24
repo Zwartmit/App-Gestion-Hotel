@@ -24,28 +24,30 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 bg-amber-50 text-black rounded-2xl">
       <h2 className="text-xl font-bold mb-4">Buscar habitaciones</h2>
-      
-      <label className="block mb-2">
-        <span className="font-semibold">Fecha de entrada:</span>
-        <input
-          type="date"
-          value={checkIn}
-          onChange={(e) => setCheckIn(e.target.value)}
-          className="border p-2 w-full mt-1"
-        />
-      </label>
+      <div className="flex flex-col md:flex-row gap-4 mb-2">
+        
+        <label className="flex-1">
+          <span className="font-semibold block mb-1">Fecha de entrada:</span>
+          <input
+            type="date"
+            value={checkIn}
+            onChange={(e) => setCheckIn(e.target.value)}
+            className="border p-2 w-full text-white bg-[#021224] rounded-2xl"
+          />
+        </label>
 
-      <label className="block mb-2">
-        <span className="font-semibold">Fecha de salida:</span>
-        <input
-          type="date"
-          value={checkOut}
-          onChange={(e) => setCheckOut(e.target.value)}
-          className="border p-2 w-full mt-1"
-        />
-      </label>
+        <label className="flex-1">
+          <span className="font-semibold block mb-1">Fecha de salida:</span>
+          <input
+            type="date"
+            value={checkOut}
+            onChange={(e) => setCheckOut(e.target.value)}
+            className="border p-2 w-full text-white bg-[#021224] rounded-2xl"
+          />
+        </label>
+      </div>
 
       <label className="block mb-2">
         <span className="font-semibold">Ciudad:</span>
@@ -54,7 +56,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
           placeholder="¿Dónde deseas hospedarte?"
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          className="border p-2 w-full mt-1"
+          className="border p-2 w-full mt-1 rounded-2xl"
         />
       </label>
 
