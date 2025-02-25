@@ -1,0 +1,176 @@
+{
+    "hotels": [
+      {
+        "id": 1,
+        "name": "Hotel Bogotá Plaza",
+        "city": "Bogotá",
+        "enabled": true
+      },
+      {
+        "id": 2,
+        "name": "Hotel Estelar Medellín",
+        "city": "Medellín",
+        "enabled": true
+      },
+      {
+        "id": 3,
+        "name": "Hotel Dann Cartagena",
+        "city": "Cartagena",
+        "enabled": true
+      },
+      {
+        "id": 4,
+        "name": "Hotel Intercontinental Cali",
+        "city": "Cali",
+        "enabled": false
+      }
+    ],
+    "rooms": [
+      {
+        "id": 101,
+        "hotelId": 1,
+        "type": "Standard",
+        "baseCost": 250000,
+        "taxes": 25000,
+        "enabled": true
+      },
+      {
+        "id": 102,
+        "hotelId": 1,
+        "type": "Deluxe",
+        "baseCost": 400000,
+        "taxes": 40000,
+        "enabled": true
+      },
+      {
+        "id": 103,
+        "hotelId": 2,
+        "type": "Standard",
+        "baseCost": 270000,
+        "taxes": 27000,
+        "enabled": true
+      },
+      {
+        "id": 104,
+        "hotelId": 2,
+        "type": "Suite",
+        "baseCost": 600000,
+        "taxes": 60000,
+        "enabled": true
+      },
+      {
+        "id": 105,
+        "hotelId": 3,
+        "type": "Standard",
+        "baseCost": 220000,
+        "taxes": 22000,
+        "enabled": true
+      },
+      {
+        "id": 106,
+        "hotelId": 3,
+        "type": "Deluxe",
+        "baseCost": 380000,
+        "taxes": 38000,
+        "enabled": true
+      },
+      {
+        "id": 107,
+        "hotelId": 4,
+        "type": "Standard",
+        "baseCost": 280000,
+        "taxes": 28000,
+        "enabled": false
+      }
+    ],
+    "reservations": [
+      {
+        "id": 1,
+        "roomId": 101,
+        "checkIn": "2023-09-01",
+        "checkOut": "2023-09-05",
+        "guests": 2,
+        "guestDetails": [
+          {
+            "firstName": "Juan",
+            "lastName": "Pérez",
+            "email": "juan.perez@example.com",
+            "phone": "3104567890",
+            "dob": "1990-01-01",
+            "gender": "Masculino",
+            "documentType": "Cédula",
+            "documentNumber": "1012345678"
+          },
+          {
+            "firstName": "María",
+            "lastName": "González",
+            "email": "maria.gonzalez@example.com",
+            "phone": "3217654321",
+            "dob": "1992-05-15",
+            "gender": "Femenino",
+            "documentType": "Cédula",
+            "documentNumber": "1023456789"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "roomId": 102,
+        "checkIn": "2023-09-10",
+        "checkOut": "2023-09-15",
+        "guests": 3,
+        "guestDetails": [
+          {
+            "firstName": "Andrea",
+            "lastName": "Martínez",
+            "email": "andrea.martinez@example.com",
+            "phone": "3141234567",
+            "dob": "1985-07-20",
+            "gender": "Femenino",
+            "documentType": "Pasaporte",
+            "documentNumber": "PA9876543"
+          },
+          {
+            "firstName": "Carlos",
+            "lastName": "Ramírez",
+            "email": "carlos.ramirez@example.com",
+            "phone": "3159876543",
+            "dob": "1988-11-30",
+            "gender": "Masculino",
+            "documentType": "Cédula",
+            "documentNumber": "1034567890"
+          },
+          {
+            "firstName": "Julián",
+            "lastName": "Torres",
+            "email": "julian.torres@example.com",
+            "phone": "3166543210",
+            "dob": "1995-03-25",
+            "gender": "Masculino",
+            "documentType": "Cédula",
+            "documentNumber": "1045678901"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "roomId": 103,
+        "checkIn": "2023-10-01",
+        "checkOut": "2023-10-05",
+        "guests": 1,
+        "guestDetails": [
+          {
+            "firstName": "Fernando",
+            "lastName": "López",
+            "email": "fernando.lopez@example.com",
+            "phone": "3173214567",
+            "dob": "1975-12-12",
+            "gender": "Masculino",
+            "documentType": "Cédula",
+            "documentNumber": "1056789012"
+          }
+        ]
+      }
+    ]
+  }
+  
