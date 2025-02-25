@@ -17,16 +17,7 @@ interface Hotel {
   interface Reservation {
     id: string;
     roomId: string;
-    guests: {
-      firstName: string;
-      lastName: string;
-      dob: string;
-      gender: string;
-      documentType: string;
-      documentNumber: string;
-      email: string;
-      phone: string;
-    };
+    guests: Guest[];
     emergencyContact: {
       fullName: string;
       phone: string;
@@ -34,6 +25,17 @@ interface Hotel {
     checkIn: string;
     checkOut: string;
   }
+  
+  interface Guest {
+    firstName: string;
+    lastName: string;
+    dob: string;
+    gender: string;
+    documentType: string;
+    documentNumber: string;
+    email: string;
+    phone: string;
+  }  
   
   // Obtener hoteles
   export const getHotels = (): Hotel[] => {
