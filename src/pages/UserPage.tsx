@@ -5,7 +5,7 @@ import { getHotels, getRooms, Room } from "../utils/storage";
 import { LogOut } from "lucide-react";
 import { logout } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
-import icon from "../assets/icon2.png";
+import icon from "../assets/icon.png";
 import back1 from "../assets/back2.jpg";
 import back2 from "../assets/backLogin.png";
 

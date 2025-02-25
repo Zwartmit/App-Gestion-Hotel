@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import icon from "../assets/icon2.png";
+import icon from "../assets/icon.png";
 import back from "../assets/backLogin.png";
 
 const Home = () => {

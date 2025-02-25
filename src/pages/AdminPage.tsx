@@ -6,7 +6,7 @@ import HotelList from "../components/Admin/HotelList";
 import RoomList from "../components/Admin/RoomList";
 import ReservationList from "../components/Admin/ReservationList";
 import { motion } from "framer-motion";
-import icon from "../assets/icon2.png";
+import icon from "../assets/icon.png";
 import back1 from "../assets/back2.jpg";
 import back2 from "../assets/backLogin.png";
 

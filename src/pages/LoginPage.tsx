@@ -2,7 +2,7 @@ import { useState } from "react";
 import { isAdmin, login } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
 import { House } from 'lucide-react';
-import icon from "../assets/icon2.png";
+import icon from "../assets/icon.png";
 import back from "../assets/backLogin.png";
 
 const LoginPage = () => {
