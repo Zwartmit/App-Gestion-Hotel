@@ -10,7 +10,7 @@ import back1 from "../assets/back2.jpg";
 import back2 from "../assets/backLogin.png";
 
 const UserPage = () => {
-  const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+  const [selectedRoom, setSelectedRoom] = useState<{ id: string; type: string; hotelName: string; city: string; total: number } | null>(null);
   const [selectedCheckIn, setSelectedCheckIn] = useState<string | null>(null);
   const [selectedCheckOut, setSelectedCheckOut] = useState<string | null>(null);
 
@@ -79,72 +79,98 @@ const UserPage = () => {
     setSelectedCheckOut(checkOut);
   };
 
-  const handleSelectRoom = (roomId: string) => {
-    setSelectedRoom(roomId);
+  const handleSelectRoom = (room: Room) => {
+    const hotels = getHotels();
+    const hotel = hotels.find(h => h.id === room.hotelId);
+    setSelectedRoom({
+      id: room.id,
+      type: room.type,
+      hotelName: hotel ? hotel.name : "Desconocido",
+      city: hotel ? hotel.city : "Desconocido",
+      total: Math.round(room.baseCost * (1 + room.taxes / 100)),
+    });
   };
-
   const handleBackToSearch = () => {
     setSelectedRoom(null);
     setAvailableRooms([]);
     setNoRoomsMessage(null);
   };
-
   return (
-    <div className="flex flex-col items-center bg-gray-100 p-3 rounded-2xl" style={{ backgroundImage: `url(${back1})`, backgroundSize: "contain", backgroundPosition: "center" }}>
-      <button 
-        onClick={handleLogout} 
+    <div
+      className="flex flex-col items-center bg-gray-100 p-3 rounded-2xl"
+      style={{
+        backgroundImage: `url(${back1})`,
+        backgroundSize: "contain",
+        backgroundPosition: "center",
+      }}
+    >
+      <button
+        onClick={handleLogout}
         className="fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-2xl hover:bg-red-600 transition flex items-center gap-2"
       >
         <LogOut size={20} />
         <span className="hidden sm:inline">Cerrar Sesión</span>
       </button>
-
-      <div className="w-full max-w-4xl bg-white text-gray-900 rounded-xl shadow-lg p-6 md:p-8" style={{ backgroundImage: `url(${back2})`, backgroundSize: "contain", backgroundPosition: "center" }}>
+  
+      <div
+        className="w-full max-w-4xl bg-white text-gray-900 rounded-xl shadow-lg p-6 md:p-8"
+        style={{
+          backgroundImage: `url(${back2})`,
+          backgroundSize: "contain",
+          backgroundPosition: "center",
+        }}
+      >
         <h1 className="text-2xl font-bold text-center text-white">Panel de reserva</h1>
-        <img src={icon} alt="Logo" className="w-auto h-35 mb-6 mx-auto" style={{ filter: "drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.2))" }} />
-        
+        <img
+          src={icon}
+          alt="Logo"
+          className="w-auto h-35 mb-6 mx-auto"
+          style={{ filter: "drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.2))" }}
+        />
+  
         {!selectedRoom ? (
           <>
             <SearchForm onSearch={handleSearch} />
             {error && <p className="text-red-500 mt-2">{error}</p>}
             {noRoomsMessage && <p className="text-red-500 mt-2">{noRoomsMessage}</p>}
-
+  
             {availableRooms.length > 0 && (
-              <div className="mt-4 bg-amber-50 text-black rounded-2xl">
+              <div className="mt-4 bg-amber-50 text-black rounded-2xl p-4">
                 <h2 className="text-2xl font-bold">Habitaciones disponibles</h2>
                 <ul className="space-y-2">
-                  {availableRooms.map((room) => {
-                    const hotel = getHotels().find((hotel) => hotel.id === room.hotelId);
-                    return (
-                      <li key={room.id} className="border p-2">
-                        <p className="font-bold">{room.type}</p>
-                        <p><b>Hotel:</b> {hotel ? hotel.name : "Desconocido"}</p>
-                        <p><b>Precio:</b> ${room.baseCost}</p>
-                        <p><b>Impuesto:</b> {room.taxes}%</p>
-                        <button
-                          onClick={() => handleSelectRoom(room.id)}
-                          className="bg-blue-500 text-white p-2 mt-2"
-                        >
-                          Reservar
-                        </button>
-                      </li>
-                    );
-                  })}
+                  {availableRooms.map((room) => (
+                    <li key={room.id} className="border p-2">
+                      <p className="font-bold">{room.type}</p>
+                      <p><b>Costo base:</b> ${room.baseCost}</p>
+                      <p><b>Impuestos:</b> {room.taxes}%</p>
+                      <p><b>Total:</b> ${Math.round(room.baseCost * (1 + room.taxes / 100))}</p>
+                      <button
+                        onClick={() => handleSelectRoom(room)}
+                        className="bg-blue-500 text-white p-2 mt-2"
+                      >
+                        Reservar
+                      </button>
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
           </>
         ) : (
-          <ReservationForm 
-            roomId={selectedRoom} 
-            checkIn={selectedCheckIn!} 
-            checkOut={selectedCheckOut!} 
-            onSuccess={handleBackToSearch} 
+          <ReservationForm
+            roomId={selectedRoom.id}
+            roomType={selectedRoom.type}
+            hotelName={selectedRoom.hotelName}
+            city={selectedRoom.city}
+            checkIn={selectedCheckIn || ""}
+            checkOut={selectedCheckOut || ""}
+            total={selectedRoom.total}
+            onSuccess={handleBackToSearch}
           />
         )}
       </div>
     </div>
   );
-};
-
+  };
+  
 export default UserPage;

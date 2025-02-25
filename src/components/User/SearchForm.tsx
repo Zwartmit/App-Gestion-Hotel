@@ -24,7 +24,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
   };
 
   return (
-    <div className="p-4 bg-amber-50 text-black rounded-2xl">
+    <div className="p-4 bg-white text-black rounded-2xl">
       <h2 className="text-xl font-bold mb-4">Buscar habitaciones</h2>
       <div className="flex flex-col md:flex-row gap-4 mb-2">
         

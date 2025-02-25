@@ -150,9 +150,9 @@ const RoomList = () => {
             <li key={room.id} className="border p-4 flex justify-between items-center rounded-lg shadow-sm bg-gray-100">
               <div>
                 <p className="font-bold text-lg">{room.type}</p>
-                <p className="text-gray-600">Hotel: {hotels.find((h) => h.id === room.hotelId)?.name || "Desconocido"}</p>
-                <p className="text-gray-600">Costo base: ${room.baseCost}</p>
-                <p className="text-gray-600">Impuestos: ${room.taxes}</p>
+                <p className="text-gray-600"><b>Hotel:</b> {hotels.find((h) => h.id === room.hotelId)?.name || "Desconocido"}</p>
+                <p className="text-gray-600"><b>Costo base:</b> ${room.baseCost}</p>
+                <p className="text-gray-600"><b>Impuestos:</b> {room.taxes}%</p>
               </div>
               <div className="flex space-x-2">
                 <button
