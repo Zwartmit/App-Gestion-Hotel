@@ -91,5 +91,5 @@ npm run mock-server
 
 ## Proyecto Desplegado
 Se puede acceder al proyecto desde el siguiente enlace:
-[https://gestion-hotelera.netlify.app](https://app-gestion-hotel.netlify.app)
+[https://app-gestion-hotel.netlify.app](https://app-gestion-hotel.netlify.app)
 
