@@ -15,7 +15,7 @@ interface Guest {
 interface Reservation {
   id: string;
   roomId: string;
-  guests?: Guest[];
+  guests: Guest[];
   emergencyContact: {
     fullName: string;
     phone: string;
@@ -48,8 +48,8 @@ const ReservationList = () => {
 
     const formattedReservations = storedReservations.map((reservation) => ({
       ...reservation,
-      guests: reservation.guests || [],
-    }));
+      guests: Array.isArray(reservation.guests) ? reservation.guests : [],
+    }));    
 
     setReservations(formattedReservations);
     setRooms(storedRooms);

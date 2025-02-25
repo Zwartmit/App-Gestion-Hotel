@@ -17,7 +17,7 @@ interface Hotel {
   interface Reservation {
     id: string;
     roomId: string;
-    guest: {
+    guests: {
       firstName: string;
       lastName: string;
       dob: string;
