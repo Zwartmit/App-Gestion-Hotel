@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getHotels, deleteHotel } from "../../utils/storage";
+import { getHotels, toggleHotelStatus } from "../../utils/storage";
 
 const HotelList = () => {
   interface Hotel {
@@ -57,8 +57,12 @@ const HotelList = () => {
     setCity(hotel.city);
   };
 
-  const handleDelete = (id: string) => {
-    deleteHotel(id);
+  const handleToggleStatus = (id: string, enabled: boolean) => {
+    const action = enabled ? "deshabilitar" : "habilitar";
+    const confirmToggle = window.confirm(`¿Deseas ${action} este hotel?`);
+    if (!confirmToggle) return;
+
+    toggleHotelStatus(id, !enabled);
     setHotels(getHotels());
     window.dispatchEvent(new Event("hotelListUpdated"));
   };
@@ -102,6 +106,7 @@ const HotelList = () => {
               <div>
                 <p className="font-bold text-lg">{hotel.name}</p>
                 <p className="text-gray-600">{hotel.city}</p>
+                <p className="text-gray-600">{hotel.enabled ? "Habilitado" : "Deshabilitado"}</p>
               </div>
               <div className="flex space-x-2">
                 <button
@@ -111,10 +116,12 @@ const HotelList = () => {
                   Editar
                 </button>
                 <button
-                  onClick={() => handleDelete(hotel.id)}
-                  className="bg-red-500 text-white px-4 py-2 rounded-lg"
+                  onClick={() => handleToggleStatus(hotel.id, hotel.enabled)}
+                  className={`${
+                    hotel.enabled ? "bg-red-500" : "bg-green-500"
+                  } text-white px-4 py-2 rounded-lg`}
                 >
-                  Eliminar
+                  {hotel.enabled ? "Deshabilitar" : "Habilitar"}
                 </button>
               </div>
             </li>

@@ -5,7 +5,7 @@ interface Hotel {
     enabled: boolean;
   }
   
-  interface Room {
+  export interface Room {
     id: string;
     hotelId: string;
     type: string;
@@ -79,52 +79,40 @@ interface Hotel {
     return rooms.filter((room) => room.hotelId === hotelId);
   };
   
-  // Habilitar/deshabilitar un hotel
-  export const toggleHotelStatus = (hotelId: string, enabled: boolean) => {
+  // Obtener hoteles habilitados
+  export const getEnabledHotels = (): Hotel[] => {
+    const hotels = JSON.parse(localStorage.getItem("hotels") || "[]");
+    return hotels.filter((hotel: Hotel) => hotel.enabled);
+  };
+
+  // Obtener habitaciones habilitadas
+  export const getEnabledRooms = (): Room[] => {
+    const rooms = JSON.parse(localStorage.getItem("rooms") || "[]");
+    return rooms.filter((room: Room) => room.enabled);
+  };
+
+  // Mostrar ciudades de hoteles habilitados
+  export const getEnabledCities = (): string[] => {
+    const hotels = getHotels();
+    const enabledHotels = hotels.filter((hotel) => hotel.enabled);
+    const cities = enabledHotels.map((hotel) => hotel.city);
+    return [...new Set(cities)];
+  };
+
+  // Habilitar o deshabilitar un hotel
+  export const toggleHotelStatus = (id: string, enabled: boolean) => {
     const hotels = getHotels();
     const updatedHotels = hotels.map((hotel) =>
-      hotel.id === hotelId ? { ...hotel, enabled } : hotel
+      hotel.id === id ? { ...hotel, enabled } : hotel
     );
     localStorage.setItem("hotels", JSON.stringify(updatedHotels));
   };
-  
-  // Habilitar/deshabilitar una habitación
-  export const toggleRoomStatus = (roomId: string, enabled: boolean) => {
+
+  // Habilitar o deshabilitar una habitación
+  export const toggleRoomStatus = (id: string, enabled: boolean) => {
     const rooms = getRooms();
     const updatedRooms = rooms.map((room) =>
-      room.id === roomId ? { ...room, enabled } : room
+      room.id === id ? { ...room, enabled } : room
     );
     localStorage.setItem("rooms", JSON.stringify(updatedRooms));
   };
-  
-  // Eliminar un hotel
-  export const deleteHotel = (id: string) => {
-    const hotels = getHotels();
-    const rooms = getRooms();
-  
-    const hasAssociatedRooms = rooms.some((room) => room.hotelId === id);
-  
-    if (hasAssociatedRooms) {
-      alert("No se puede eliminar el hotel porque tiene habitaciones asociadas.");
-      return;
-    }
-  
-    const confirmDelete = window.confirm("¿Estás seguro de que quieres eliminar este hotel?");
-    if (!confirmDelete) return;
-  
-    const updatedHotels = hotels.filter((hotel) => hotel.id !== id);
-    localStorage.setItem("hotels", JSON.stringify(updatedHotels));
-    alert("Hotel eliminado exitosamente.");
-  };
-  
-  // Eliminar una habitación
-  export const deleteRoom = (id: string) => {
-    const confirmDelete = window.confirm("¿Estás seguro de que quieres eliminar esta habitación?");
-    if (!confirmDelete) return;
-  
-    const rooms = getRooms();
-    const updatedRooms = rooms.filter((room) => room.id !== id);
-    localStorage.setItem("rooms", JSON.stringify(updatedRooms));
-    alert("Habitación eliminada exitosamente.");
-  };
-  

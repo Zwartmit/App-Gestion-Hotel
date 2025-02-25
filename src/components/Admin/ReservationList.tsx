@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
 import { getReservations, getRooms, getHotels } from "../../utils/storage";
 
+interface Guest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  dob: string;
+  gender: string;
+  documentType: string;
+  documentNumber: string;
+}
+
 interface Reservation {
   id: string;
   roomId: string;
-  guest: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    dob: string;
-    gender: string;
-    documentType: string;
-    documentNumber: string;
-  };
+  guests?: Guest[];
   emergencyContact: {
     fullName: string;
     phone: string;
@@ -31,7 +33,7 @@ interface Room {
 interface Hotel {
   id: string;
   name: string;
-  city: string; // Se agrega la ciudad al hotel
+  city: string;
 }
 
 const ReservationList = () => {
@@ -40,9 +42,18 @@ const ReservationList = () => {
   const [hotels, setHotels] = useState<Hotel[]>([]);
 
   useEffect(() => {
-    setReservations(getReservations());
-    setRooms(getRooms());
-    setHotels(getHotels());
+    const storedReservations = getReservations();
+    const storedRooms = getRooms();
+    const storedHotels = getHotels();
+
+    const formattedReservations = storedReservations.map((reservation) => ({
+      ...reservation,
+      guests: reservation.guests || [],
+    }));
+
+    setReservations(formattedReservations);
+    setRooms(storedRooms);
+    setHotels(storedHotels);
   }, []);
 
   const getRoomDetails = (roomId: string) => {
@@ -69,27 +80,44 @@ const ReservationList = () => {
             const { type, hotelName, city } = getRoomDetails(reservation.roomId);
             return (
               <div key={reservation.id} className="border rounded-lg p-6 shadow-md bg-white max-w-md mx-auto">
-                <p className="font-bold text-lg text-blue-600 text-center">
-                  👤 {reservation.guest.firstName} {reservation.guest.lastName}
-                </p>
+                <h3 className="font-bold text-lg text-blue-600 text-center">Reserva #{reservation.id}</h3>
                 <div className="mt-4 space-y-2 text-center">
-                  <p className="text-gray-700"><b>🚻 Género:</b> {reservation.guest.gender}</p>
-                  <p className="text-gray-700"><b>📞 Teléfono:</b> {reservation.guest.phone}</p>
-                  <p className="text-gray-700"><b>🆔 Documento:</b> {reservation.guest.documentType} - {reservation.guest.documentNumber}</p>
-                  <p className="text-gray-700"><b>📧 Correo:</b> {reservation.guest.email}</p>
-                  <p className="text-gray-700"><b>🎂 Fecha de Nacimiento:</b> {reservation.guest.dob}</p>
-                  <p className="text-gray-700">
-                    <b>🚨 Contacto de emergencia:</b>{" "}
-                    {reservation.emergencyContact
-                      ? `${reservation.emergencyContact.fullName} - ${reservation.emergencyContact.phone}`
-                      : "No registrado"}
-                  </p>
-                  <div className="w-full h-[2px] bg-gradient-to-r from-[#cccccc] via-[#BE8922] to-[#cccccc] mx-auto m-6"></div>
                   <p className="text-gray-700"><b>📅 Check-in:</b> {reservation.checkIn}</p>
                   <p className="text-gray-700"><b>📅 Check-out:</b> {reservation.checkOut}</p>
                   <p className="text-gray-700"><b>🛏️ Habitación:</b> {type}</p>
                   <p className="text-gray-700"><b>🏨 Hotel:</b> {hotelName}</p>
                   <p className="text-gray-700"><b>📍 Ciudad:</b> {city}</p>
+                </div>
+
+                <div className="w-full h-[2px] bg-gradient-to-r from-[#cccccc] via-[#BE8922] to-[#cccccc] mx-auto m-6"></div>
+
+                <h4 className="font-bold text-lg text-blue-600 text-center">Huéspedes</h4>
+                {reservation.guests.map((guest, index) => (
+                  <div key={index} className="mt-4 space-y-2 text-center">
+                    <p className="text-gray-700"><b>👤 Nombre:</b> {guest.firstName} {guest.lastName}</p>
+                    <p className="text-gray-700"><b>📧 Correo:</b> {guest.email}</p>
+                    <p className="text-gray-700"><b>📞 Teléfono:</b> {guest.phone}</p>
+                    <p className="text-gray-700"><b>🎂 Fecha de Nacimiento:</b> {guest.dob}</p>
+                    <p className="text-gray-700"><b>🚻 Género:</b> {guest.gender}</p>
+                    <p className="text-gray-700"><b>🆔 Documento:</b> {guest.documentType} - {guest.documentNumber}</p>
+                    {index < reservation.guests.length - 1 && (
+                      <div className="w-full h-[1px] bg-gray-300 mx-auto my-4"></div>
+                    )}
+                  </div>
+                ))}
+
+                <div className="w-full h-[2px] bg-gradient-to-r from-[#cccccc] via-[#BE8922] to-[#cccccc] mx-auto m-6"></div>
+
+                <h4 className="font-bold text-lg text-blue-600 text-center">Contacto de Emergencia</h4>
+                <div className="mt-4 space-y-2 text-center">
+                  {reservation.emergencyContact ? (
+                    <>
+                      <p className="text-gray-700"><b>👤 Nombre:</b> {reservation.emergencyContact.fullName}</p>
+                      <p className="text-gray-700"><b>📞 Teléfono:</b> {reservation.emergencyContact.phone}</p>
+                    </>
+                  ) : (
+                    <p className="text-gray-700">No registrado</p>
+                  )}
                 </div>
               </div>
             );

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getRooms, deleteRoom, getHotels } from "../../utils/storage";
+import { getRooms, toggleRoomStatus, getHotels } from "../../utils/storage";
 
 const RoomList = () => {
   interface Room {
@@ -17,7 +17,7 @@ const RoomList = () => {
   const [type, setType] = useState("");
   const [baseCost, setBaseCost] = useState(0);
   const [taxes, setTaxes] = useState(0);
-  
+
   interface Hotel {
     id: string;
     name: string;
@@ -86,8 +86,12 @@ const RoomList = () => {
     setTaxes(room.taxes);
   };
 
-  const handleDelete = (id: string) => {
-    deleteRoom(id);
+  const handleToggleStatus = (id: string, enabled: boolean) => {
+    const action = enabled ? "deshabilitar" : "habilitar";
+    const confirmToggle = window.confirm(`Deseas ${action} esta habitación?`);
+    if (!confirmToggle) return;
+
+    toggleRoomStatus(id, !enabled);
     setRooms(getRooms());
   };
 
@@ -153,6 +157,7 @@ const RoomList = () => {
                 <p className="text-gray-600"><b>Hotel:</b> {hotels.find((h) => h.id === room.hotelId)?.name || "Desconocido"}</p>
                 <p className="text-gray-600"><b>Costo base:</b> ${room.baseCost}</p>
                 <p className="text-gray-600"><b>Impuestos:</b> {room.taxes}%</p>
+                <p className="text-gray-600"><b>Estado:</b> {room.enabled ? "Habilitada" : "Deshabilitada"}</p>
               </div>
               <div className="flex space-x-2">
                 <button
@@ -162,10 +167,12 @@ const RoomList = () => {
                   Editar
                 </button>
                 <button
-                  onClick={() => handleDelete(room.id)}
-                  className="bg-red-500 text-white px-4 py-2 rounded-lg"
+                  onClick={() => handleToggleStatus(room.id, room.enabled)}
+                  className={`${
+                    room.enabled ? "bg-red-500" : "bg-green-500"
+                  } text-white px-4 py-2 rounded-lg`}
                 >
-                  Eliminar
+                  {room.enabled ? "Deshabilitar" : "Habilitar"}
                 </button>
               </div>
             </li>

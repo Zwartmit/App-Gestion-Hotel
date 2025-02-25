@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SearchForm from "../components/User/SearchForm";
 import ReservationForm from "../components/User/ReservationForm";
-import { getHotels, getRooms } from "../utils/storage";
+import { getHotels, getRooms, Room } from "../utils/storage";
 import { LogOut } from "lucide-react";
 import { logout } from "../utils/auth";
 import { useNavigate } from "react-router-dom";
@@ -13,23 +13,13 @@ const UserPage = () => {
   const [selectedRoom, setSelectedRoom] = useState<{ id: string; type: string; hotelName: string; city: string; total: number } | null>(null);
   const [selectedCheckIn, setSelectedCheckIn] = useState<string | null>(null);
   const [selectedCheckOut, setSelectedCheckOut] = useState<string | null>(null);
-
-  interface Room {
-    id: string;
-    type: string;
-    baseCost: number;
-    taxes: number;
-    hotelId: string;
-    enabled: boolean;
-  }
-
   const [availableRooms, setAvailableRooms] = useState<Room[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [noRoomsMessage, setNoRoomsMessage] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    const confirmLogout = window.confirm("¿Estás seguro de que deseas cerrar sesión?");
+    const confirmLogout = window.confirm("¿Deseas cerrar sesión?");
     if (confirmLogout) {
       logout();
       navigate("/", { replace: true });
@@ -61,7 +51,7 @@ const UserPage = () => {
 
     if (filteredHotels.length === 0) {
       setAvailableRooms([]);
-      setNoRoomsMessage("No hay habitaciones disponibles en esta ciudad.");
+      setNoRoomsMessage("No hay hoteles disponibles en esta ciudad.");
       return;
     }
 
@@ -97,7 +87,7 @@ const UserPage = () => {
   };
   return (
     <div
-      className="flex flex-col items-center bg-gray-100 p-3 rounded-2xl"
+      className="flex flex-col items-center p-3 rounded-2xl"
       style={{
         backgroundImage: `url(${back1})`,
         backgroundSize: "contain",
@@ -135,12 +125,14 @@ const UserPage = () => {
             {noRoomsMessage && <p className="text-red-500 mt-2">{noRoomsMessage}</p>}
   
             {availableRooms.length > 0 && (
-              <div className="mt-4 bg-amber-50 text-black rounded-2xl p-4">
-                <h2 className="text-2xl font-bold">Habitaciones disponibles</h2>
+              <div className="mt-4 bg-white text-black rounded-2xl p-3">
+                <h2 className="text-2xl font-bold m-3">Habitaciones disponibles</h2>
                 <ul className="space-y-2">
                   {availableRooms.map((room) => (
-                    <li key={room.id} className="border p-2">
-                      <p className="font-bold">{room.type}</p>
+                    <li key={room.id} className="border p-2 rounded-2xl">
+                      <p><b>Tipo:</b> {room.type}</p>
+                      <p><b>Hotel:</b> {getHotels().find(hotel => hotel.id === room.hotelId)?.name || "Desconocido"}</p>
+                      <p><b>Ciudad:</b> {getHotels().find(hotel => hotel.id === room.hotelId)?.city || "Desconocido"}</p>
                       <p><b>Costo base:</b> ${room.baseCost}</p>
                       <p><b>Impuestos:</b> {room.taxes}%</p>
                       <p><b>Total:</b> ${Math.round(room.baseCost * (1 + room.taxes / 100))}</p>
