@@ -48,7 +48,7 @@
 
 ### 1. Clonar el repositorio:
 ```sh
-git clone https://github.com/Zwartmit/App-Hotelera.git
+git clone https://github.com/Zwartmit/App-Gestion-Hotel.git
 ```
 
 ### 2. Instalar las dependencias:
@@ -91,5 +91,5 @@ npm run mock-server
 
 ## Proyecto Desplegado
 Se puede acceder al proyecto desde el siguiente enlace:
-[https://gestion-hotelera.netlify.app](https://gestion-hotelera.netlify.app)
+[https://gestion-hotelera.netlify.app](https://app-gestion-hotel.netlify.app)
 
